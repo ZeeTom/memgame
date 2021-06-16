@@ -4,14 +4,21 @@
 
 const FOUND_MATCH_WAIT_MSECS = 1000;
 const COLORS = [
-  "red", "blue", "green", "orange", "purple",
-  "red", "blue", "green", "orange", "purple",
+  "red",
+  "blue",
+  "green",
+  "orange",
+  "purple",
+  "red",
+  "blue",
+  "green",
+  "orange",
+  "purple",
 ];
 
 const colors = shuffle(COLORS);
 
 createCards(colors);
-
 
 /** Shuffle array items in-place and return shuffled array. */
 
@@ -42,7 +49,12 @@ function createCards(colors) {
   const gameBoard = document.getElementById("game");
 
   for (let color of colors) {
-    // missing code here ...
+    let newDiv = document.createElement("div");
+    newDiv.classList.add(`${color}`);
+    newDiv.addEventListener("click", function (e) {
+      handleCardClick(e);
+    });
+    gameBoard.append(newDiv);
   }
 }
 
@@ -60,6 +72,6 @@ function unFlipCard(card) {
 
 /** Handle clicking on a card: this could be first-card or second-card. */
 
-function handleCardClick(evt) {
-  // ... you need to write this ...
+function handleCardClick(e) {
+  console.log(e.target.className);
 }

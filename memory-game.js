@@ -17,6 +17,7 @@ const COLORS = [
 ];
 
 const colors = shuffle(COLORS);
+console.log(colors);
 
 createCards(colors);
 
@@ -51,7 +52,7 @@ let total = 0;
  */
 
 function createCards(colors) {
-  const gameBoard = document.getElementById("game");
+  let gameBoard = document.getElementById("game");
 
   for (let color of colors) {
     let newDiv = document.createElement("div");
@@ -62,6 +63,23 @@ function createCards(colors) {
     gameBoard.append(newDiv);
   }
 }
+
+let allCards = document.querySelectorAll("div");
+
+function resetGame() {
+  console.log(colors);
+  shuffle(colors);
+  console.log(colors);
+  for (let [i, card] of allCards.entries()) {
+    card.style.backgroundColor = "";
+    card.className = colors[i - 1];
+  }
+  clearCardVars();
+  total = 0;
+}
+
+const newGameBtn = document.querySelector("#new-game");
+newGameBtn.addEventListener("click", resetGame);
 
 /** Flip a card face-up. */
 
@@ -78,7 +96,26 @@ function unFlipCard(card) {
 
 /** Handle clicking on a card: this could be first-card or second-card. */
 
+let compareCards = function () {
+  if (
+    firstCard.style.backgroundColor === secondCard.style.backgroundColor &&
+    firstCard.style.backgroundColor
+  ) {
+    clearCardVars();
+    total += 2;
+    console.log(total);
+    if (total >= 10) {
+      alert("I think you won the game");
+    }
+  } else {
+    unFlipCard(firstCard);
+    unFlipCard(secondCard);
+    clearCardVars();
+  }
+};
+
 function handleCardClick(e) {
+  console.log(e.target.style.backgroundColor);
   if (e.target.style.backgroundColor) {
     console.log("card out of play");
   } else if (!firstCard) {
@@ -87,7 +124,7 @@ function handleCardClick(e) {
   } else if (!secondCard) {
     secondCard = e.target;
     flipCard(secondCard);
-    compareCards(firstCard, secondCard);
+    setTimeout(compareCards, 1000);
   }
 }
 //   if (e.target.style.backgroundColor) {
@@ -97,18 +134,7 @@ function handleCardClick(e) {
 //   }
 // }
 
-function compareCards(first, second) {
-  if (first.style.backgroundColor === second.style.backgroundColor) {
-    firstCard = "";
-    secondCard = "";
-    total += 2;
-    if (total >= 10) {
-      alert("I think you won the game");
-    }
-  } else {
-    unFlipCard(first);
-    unFlipCard(second);
-    firstCard = "";
-    secondCard = "";
-  }
+function clearCardVars() {
+  firstCard = "";
+  secondCard = "";
 }

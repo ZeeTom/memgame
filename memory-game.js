@@ -38,6 +38,11 @@ function shuffle(items) {
   return items;
 }
 
+// variables
+let firstCard = "";
+let secondCard = "";
+let total = 0;
+
 /** Create card for every color in colors (each will appear twice)
  *
  * Each div DOM element will have:
@@ -61,17 +66,49 @@ function createCards(colors) {
 /** Flip a card face-up. */
 
 function flipCard(card) {
-  // ... you need to write this ...
+  // change background color to classname
+  card.style.backgroundColor = card.className;
 }
 
 /** Flip a card face-down. */
 
 function unFlipCard(card) {
-  // ... you need to write this ...
+  card.style.backgroundColor = "";
 }
 
 /** Handle clicking on a card: this could be first-card or second-card. */
 
 function handleCardClick(e) {
-  console.log(e.target.className);
+  if (e.target.style.backgroundColor) {
+    console.log("card out of play");
+  } else if (!firstCard) {
+    firstCard = e.target;
+    flipCard(firstCard);
+  } else if (!secondCard) {
+    secondCard = e.target;
+    flipCard(secondCard);
+    compareCards(firstCard, secondCard);
+  }
+}
+//   if (e.target.style.backgroundColor) {
+//     unFlipCard(e.target);
+//   } else {
+//     flipCard(e.target);
+//   }
+// }
+
+function compareCards(first, second) {
+  if (first.style.backgroundColor === second.style.backgroundColor) {
+    firstCard = "";
+    secondCard = "";
+    total += 2;
+    if (total >= 10) {
+      alert("I think you won the game");
+    }
+  } else {
+    unFlipCard(first);
+    unFlipCard(second);
+    firstCard = "";
+    secondCard = "";
+  }
 }

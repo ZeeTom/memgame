@@ -17,7 +17,7 @@ const COLORS = [
 ];
 
 const colors = shuffle(COLORS);
-console.log(colors);
+// console.log(colors);
 
 createCards(colors);
 
@@ -90,8 +90,10 @@ function flipCard(card) {
 
 /** Flip a card face-down. */
 
-function unFlipCard(card) {
-  card.style.backgroundColor = "";
+function unFlipCard() {
+  firstCard.style.backgroundColor = "";
+  secondCard.style.backgroundColor = "";
+  clearCardVars();
 }
 
 /** Handle clicking on a card: this could be first-card or second-card. */
@@ -105,26 +107,25 @@ let compareCards = function () {
     total += 2;
     console.log(total);
     if (total >= 10) {
-      alert("I think you won the game");
+      setTimeout(function () {
+        alert("I think you won the game");
+      }, 500);
     }
   } else {
-    unFlipCard(firstCard);
-    unFlipCard(secondCard);
-    clearCardVars();
+    setTimeout(unFlipCard, 1000);
   }
 };
 
 function handleCardClick(e) {
-  console.log(e.target.style.backgroundColor);
   if (e.target.style.backgroundColor) {
-    console.log("card out of play");
+    console.log("card already selected");
   } else if (!firstCard) {
     firstCard = e.target;
     flipCard(firstCard);
   } else if (!secondCard) {
     secondCard = e.target;
     flipCard(secondCard);
-    setTimeout(compareCards, 1000);
+    compareCards();
   }
 }
 //   if (e.target.style.backgroundColor) {
